@@ -7,9 +7,9 @@ on:
     branches:
     - main
 
-  schedule:
+  #schedule:
   # Force a run every day at 0005 UTC
-  - cron: '00 05 * * *'
+  #- cron: '00 05 * * *'
 
 
 env:
