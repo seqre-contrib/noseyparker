@@ -84,3 +84,38 @@ jobs:
 
       - name: Run rust-fmt
         run: cargo fmt --all --check
+
+
+  codecov:
+    name: Codecov Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        id: install-rust-toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+          components: rustfmt
+
+      - name: Install dependencies
+        run: sudo apt-get install libboost-all-dev
+
+      - name: Cache
+        uses: Swatinem/rust-cache@v2
+
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+
+      - name: Generate code coverage
+        run: cargo llvm-cov --all-features --workspace --codecov --output-path codecov.json
+        env:
+          CI: 0
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: codecov.json
+          fail_ci_if_error: true
