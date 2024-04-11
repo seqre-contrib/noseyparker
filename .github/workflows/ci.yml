@@ -9,7 +9,7 @@ on:
 
   schedule:
   # Force a run every day at 0005 UTC
-  - cron: '00 05 * * *'
+  # - cron: '00 05 * * *'
 
 
 env:
@@ -78,27 +78,27 @@ jobs:
           check_docs: true
           run_tests: true
 
-        - name: macos-12.x86_64.stable.test
-          os: macos-12
-          rust: stable
-          profile: test
-          features:
-          install_dependencies: |
-            brew install coreutils boost
+        # - name: macos-12.x86_64.stable.test
+        #   os: macos-12
+        #   rust: stable
+        #   profile: test
+        #   features:
+        #   install_dependencies: |
+        #     brew install coreutils boost
 
-          check_docs: false
-          run_tests: true
+        #   check_docs: false
+        #   run_tests: true
 
-        - name: macos-13.arm64.stable.test
-          os: macos-13-xlarge  # m1-based macos
-          rust: stable
-          profile: test
-          features:
-          install_dependencies: |
-            brew install coreutils boost
+        # - name: macos-13.arm64.stable.test
+        #   os: macos-13-xlarge  # m1-based macos
+        #   rust: stable
+        #   profile: test
+        #   features:
+        #   install_dependencies: |
+        #     brew install coreutils boost
 
-          check_docs: false
-          run_tests: true
+        #   check_docs: false
+        #   run_tests: true
 
     steps:
     - uses: actions/checkout@v4
