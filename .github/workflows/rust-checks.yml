@@ -110,5 +110,11 @@ jobs:
       - name: Install cargo-semver-checks
         run: cargo install cargo-semver-checks --locked
 
+      - run: env | sort
+      - run: git show
+      - run: git log -n 5
+      - run: git tag
+      - run: git describe --tags --abbrev=0
+
       - name: Check semver
         run: cargo semver-checks --baseline-rev "$(git describe --tags --abbrev=0 --no-contains $(git rev-parse --short HEAD))"
