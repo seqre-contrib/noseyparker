@@ -81,3 +81,39 @@ jobs:
 
       - name: Run rust-fmt
         run: cargo fmt --all --check
+
+  rust-semver-checks:
+    name: Semver Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install system dependecies
+        run: |
+          sudo apt-get update && sudo apt-get install -y --no-install-recommends \
+            cmake
+
+      - name: Install Rust toolchain
+        id: install-rust-toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+
+      - name: Cache
+        uses: Swatinem/rust-cache@v2
+
+      # Can't use the action as it doesn't allow to specify Git tag
+      # - name: Check semver
+      #   uses: obi1kenobi/cargo-semver-checks-action@v2
+
+      - name: Install cargo-semver-checks
+        run: cargo install cargo-semver-checks --locked
+
+      - run: env | sort
+      - run: git log -n 5
+      - run: git tag
+      - run: git describe --tags --abbrev=0
+
+      - name: Check semver
+        run: cargo semver-checks --baseline-rev "$(git describe --tags --abbrev=0 --no-contains $(git rev-parse --short HEAD))"

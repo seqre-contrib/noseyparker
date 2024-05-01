@@ -16,6 +16,9 @@ on:
   workflow_dispatch:
 
 jobs:
+  # semver-check:
+  #   name: Semantic Versioning check
+
   docker:
     strategy:
       matrix:
